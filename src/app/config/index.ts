@@ -10,4 +10,5 @@ export default {
   PORT: process.env.PORT,
   JWT_ACCESS_TOCEN: process.env.JWT_ACCESS_TOCEN,
   JWT_EXPIRE_IN_ACCESSTOKEN: process.env.JWT_EXPIRE_IN_ACCESSTOKEN,
+  BCRYPC_HAS: process.env.BCRYPC_HAS,
 };

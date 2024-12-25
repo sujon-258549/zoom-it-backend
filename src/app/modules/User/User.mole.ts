@@ -1,6 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import { TUser } from './User.interface';
 import bcrypt from 'bcrypt';
+import config from '../../config';
 
 const UserSchema = new Schema<TUser>(
   {
@@ -36,8 +37,10 @@ const UserSchema = new Schema<TUser>(
 );
 
 UserSchema.pre('save', async function name(next) {
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this;
-  user.password = bcrypt.hash(user.password);
+  user.password = await bcrypt.hash(user.password, Number(config.BCRYPC_HAS));
+  next();
 });
 
 // Create the User model

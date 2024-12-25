@@ -4,6 +4,7 @@ import { TloginUser } from './Auth.interface';
 import httpStatus from 'http-status';
 import { createToken } from './Auth.utils';
 import config from '../../config';
+import bcrypt from 'bcrypt';
 
 const loginUser = async (payload: TloginUser) => {
   const { email, password } = payload;
@@ -26,6 +27,13 @@ const loginUser = async (payload: TloginUser) => {
   if (isBlocked) {
     throw new AppError(httpStatus.UNAUTHORIZED, 'User is blocked.');
   }
+
+  //   password match
+  const password = paylod?.password;
+  const hasPassword = user?.password;
+  bcrypt.compare(someOtherPlaintextPassword, hash, function (err, result) {
+    // result == false
+  });
 
   const JwtPayload = {
     email: existingUser.email,
