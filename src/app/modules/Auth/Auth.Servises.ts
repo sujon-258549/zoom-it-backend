@@ -18,11 +18,6 @@ const loginUser = async (payload: TloginUser) => {
     );
   }
 
-  // Compare the password (if using hashed passwords, you would use bcrypt or similar)
-  const isPasswordValid = existingUser.password === password; // Replace with bcrypt.compare if hashed
-  if (!isPasswordValid) {
-    throw new AppError(httpStatus.UNAUTHORIZED, 'User password is Not match.');
-  }
   const isBlocked = existingUser.isBlocked; // Replace with bcrypt.compare if hashed
   if (isBlocked) {
     throw new AppError(httpStatus.UNAUTHORIZED, 'User is blocked.');
@@ -30,23 +25,24 @@ const loginUser = async (payload: TloginUser) => {
 
   //   password match
 
-  const hasPassword = existingUser?.password;
-  bcrypt.compare(password, hasPassword);
+  const matchPassword = await bcrypt.compare(password, existingUser.password);
+  if (!matchPassword) {
+    throw new AppError(httpStatus.UNAUTHORIZED, 'Invalid Password.');
+  }
 
   const JwtPayload = {
     email: existingUser.email,
     role: existingUser.role as string,
   };
 
-  const accessToken = createToken(
+  const token = createToken(
     JwtPayload,
     config.JWT_ACCESS_TOCEN as string,
     config.JWT_EXPIRE_IN_ACCESSTOKEN as string,
   );
-  console.log(accessToken);
 
   return {
-    accessToken,
+    token,
   };
 };
 
