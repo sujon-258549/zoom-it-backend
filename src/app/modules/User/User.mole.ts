@@ -1,5 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import { TUser } from './User.interface';
+import bcrypt from 'bcrypt';
 
 const UserSchema = new Schema<TUser>(
   {
@@ -33,6 +34,11 @@ const UserSchema = new Schema<TUser>(
     timestamps: true, // Automatically adds createdAt and updatedAt fields
   },
 );
+
+UserSchema.pre('save', async function name(next) {
+  const user = this;
+  user.password = bcrypt.hash(user.password);
+});
 
 // Create the User model
 export const User = mongoose.model<TUser>('User', UserSchema);
