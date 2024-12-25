@@ -29,11 +29,9 @@ const loginUser = async (payload: TloginUser) => {
   }
 
   //   password match
-  const password = paylod?.password;
-  const hasPassword = user?.password;
-  bcrypt.compare(someOtherPlaintextPassword, hash, function (err, result) {
-    // result == false
-  });
+
+  const hasPassword = existingUser?.password;
+  bcrypt.compare(password, hasPassword);
 
   const JwtPayload = {
     email: existingUser.email,
