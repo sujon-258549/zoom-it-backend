@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const blogValidationSchema = z.object({
+export const createblogValidationSchema = z.object({
   body: z.object({
     title: z
       .string()
@@ -10,3 +10,19 @@ export const blogValidationSchema = z.object({
     isPublished: z.boolean().optional().default(true),
   }),
 });
+export const updateValidationSchema = z.object({
+  body: z.object({
+    title: z
+      .string()
+      .min(1, 'Title is required')
+      .max(200, 'Title cannot exceed 200 characters')
+      .optional(), // Optional for updates
+    content: z.string().min(1, 'Content is required').optional(), // Optional for updates
+    isPublished: z.boolean().optional(),
+  }),
+});
+
+export const blogValidaction = {
+  createblogValidationSchema,
+  updateValidationSchema,
+};
