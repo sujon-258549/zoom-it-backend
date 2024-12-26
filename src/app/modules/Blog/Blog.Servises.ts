@@ -26,14 +26,8 @@ const updateBlogintoDB = async (id: string, paylod: Partial<TBlog>) => {
   return result;
 };
 const deleteBlogintoDB = async (authorId: string, email: string) => {
-  // Fetch the user's ObjectId by email
-  const user = await User.findOne({ email });
-  if (!user) {
-    throw new Error('User not found.');
-  }
-
-  // Get the userId from the user object
-  const userId = user._id.toString();
+  const user = await User.isUserExistsById(email);
+  console.log(new Types.ObjectId(user));
 
   // Find the blog by authorId
   const blog = await Blog.findOne(new Types.ObjectId(authorId));
@@ -49,7 +43,7 @@ const deleteBlogintoDB = async (authorId: string, email: string) => {
   }
 
   // Delete the blog
-  const result = await Blog.findOneAndDelete({ new Types.ObjectId(authorId)});
+  const result = await Blog.findOneAndDelete({ authorId });
   if (!result) {
     throw new Error('Blog not found or already deleted.');
   }
