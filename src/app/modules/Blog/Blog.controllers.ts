@@ -4,7 +4,8 @@ import { blogServises } from './Blog.Servises';
 import httpStatus from 'http-status';
 
 const createBlog = catchAsynch(async (req, res) => {
-  const result = await blogServises.createBlogDB(req.body);
+  const id = req?.user?.email;
+  const result = await blogServises.createBlogDB(id, req.body);
   sendSuccess(res, {
     statusCode: httpStatus.CREATED,
     success: true,
@@ -22,8 +23,21 @@ const updateBlog = catchAsynch(async (req, res) => {
     data: result,
   });
 });
+const deleteBlog = catchAsynch(async (req, res) => {
+  const { id } = req.params;
+  const email = req?.user?.email;
+  const result = await blogServises.deleteBlogintoDB(id, email);
+  console.log(result);
+  sendSuccess(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Blog Deleted successfully',
+    data: {},
+  });
+});
 
 export const blogController = {
   createBlog,
   updateBlog,
+  deleteBlog,
 };

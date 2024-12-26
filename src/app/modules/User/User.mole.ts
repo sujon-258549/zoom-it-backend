@@ -1,9 +1,9 @@
 import mongoose, { Schema } from 'mongoose';
-import { TUser } from './User.interface';
+import { TUser, UserModel } from './User.interface';
 import bcrypt from 'bcrypt';
 import config from '../../config';
 
-const UserSchema = new Schema<TUser>(
+const UserSchema = new Schema<TUser, UserModel>(
   {
     name: {
       type: String,
@@ -20,6 +20,7 @@ const UserSchema = new Schema<TUser>(
     password: {
       type: String,
       required: true,
+      select: 0,
     },
     role: {
       type: String,
@@ -42,6 +43,20 @@ UserSchema.pre('save', async function name(next) {
   user.password = await bcrypt.hash(user.password, Number(config.BCRYPC_HAS));
   next();
 });
+UserSchema.post('save', function (doc, next) {
+  doc.password = '';
+  console.log(this, 'Student Create is Success');
+  next();
+});
+
+UserSchema.statics.isUserExistsById = async function (email: string) {
+  const id = await User.findOne({ email }).select('+password');
+  return id?._id;
+};
+
+UserSchema.statics.isPasswordMatch = async function (password, hasPassword) {
+  bcrypt.compare(password, hasPassword);
+};
 
 // Create the User model
-export const User = mongoose.model<TUser>('User', UserSchema);
+export const User = mongoose.model<TUser, UserModel>('User', UserSchema);

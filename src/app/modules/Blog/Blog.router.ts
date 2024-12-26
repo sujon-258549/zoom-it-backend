@@ -9,6 +9,7 @@ const router = Router();
 
 router.post(
   '/',
+  auth(userRole.admin, userRole.user),
   zodValidaction(blogValidaction.createblogValidationSchema),
   blogController.createBlog,
 );
@@ -18,6 +19,11 @@ router.patch(
   auth(userRole.user, userRole.admin),
   zodValidaction(blogValidaction.updateValidationSchema),
   blogController.updateBlog,
+);
+router.delete(
+  '/:id',
+  auth(userRole.user, userRole.admin),
+  blogController.deleteBlog,
 );
 
 export const blogRouter = router;
