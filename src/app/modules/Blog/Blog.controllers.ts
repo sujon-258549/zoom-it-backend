@@ -13,9 +13,11 @@ const createBlog = catchAsynch(async (req, res) => {
     data: result,
   });
 });
+// update blog into db
 const updateBlog = catchAsynch(async (req, res) => {
   const { id } = req.params;
-  const result = await blogServises.updateBlogintoDB(id, req.body);
+  const { email } = req.user;
+  const result = await blogServises.updateBlogintoDB(id, email, req.body);
   sendSuccess(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -35,9 +37,19 @@ const deleteBlog = catchAsynch(async (req, res) => {
     data: {},
   });
 });
+const getallbloge = catchAsynch(async (req, res) => {
+  const result = await blogServises.getAllBlogintoDB();
+  sendSuccess(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Blogs fetched successfully',
+    data: result,
+  });
+});
 
 export const blogController = {
   createBlog,
   updateBlog,
   deleteBlog,
+  getallbloge,
 };

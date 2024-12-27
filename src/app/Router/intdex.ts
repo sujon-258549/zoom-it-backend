@@ -7,7 +7,7 @@ const router = Router();
 
 const allrouter = [
   {
-    path: '/auth',
+    path: '/',
     router: userRouter,
   },
   {

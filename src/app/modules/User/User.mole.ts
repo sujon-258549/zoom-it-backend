@@ -20,7 +20,7 @@ const UserSchema = new Schema<TUser, UserModel>(
     password: {
       type: String,
       required: true,
-      select: 0,
+      //   select: 0,
     },
     role: {
       type: String,
@@ -50,12 +50,12 @@ UserSchema.post('save', function (doc, next) {
 });
 
 UserSchema.statics.isUserExistsById = async function (email: string) {
-  const id = await User.findOne({ email }).select('+password');
+  const id = await User.findOne({ email }); //.select('+password');
   return id?._id;
 };
 
 UserSchema.statics.isPasswordMatch = async function (password, hasPassword) {
-  bcrypt.compare(password, hasPassword);
+  return await bcrypt.compare(password, hasPassword);
 };
 
 // Create the User model
