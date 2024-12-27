@@ -37,7 +37,7 @@ const deleteBlog = catchAsynch(async (req, res) => {
   });
 });
 const getallbloge = catchAsynch(async (req, res) => {
-  const result = await blogServises.getAllBlogintoDB();
+  const result = await blogServises.getAllBlogintoDB(req.query);
   sendSuccess(res, {
     statusCode: httpStatus.OK,
     success: true,

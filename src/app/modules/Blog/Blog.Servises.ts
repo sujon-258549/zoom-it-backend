@@ -1,6 +1,8 @@
+import QueryBilder from '../../QueryBilder/querybilder';
 import { User } from '../User/User.mole';
 import { TBlog } from './Blog.interfaces';
 import { Blog } from './Blog.Model';
+const searchBleFild = ['title', 'content'];
 
 const createBlogDB = async (email: string, payload: TBlog) => {
   // Find the user by email
@@ -89,9 +91,15 @@ const deleteBlogintoDB = async (authorId: string, email: string) => {
   return result;
 };
 
-const getAllBlogintoDB = async () => {
-  const resutl = await Blog.find();
-  return resutl;
+const getAllBlogintoDB = async (query: Record<string, unknown>) => {
+  const allBlogFind = new QueryBilder(Blog.find().populate('author'), query)
+    .search(searchBleFild)
+    .filter()
+    .sort()
+    .paginaction()
+    .fields();
+  const result = await allBlogFind.modelQuery;
+  return result;
 };
 
 export const blogServises = {
