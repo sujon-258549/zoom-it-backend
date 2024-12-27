@@ -1,5 +1,5 @@
 import { catchAsynch } from '../utility/catchAsync';
-import sendSuccess from '../utility/send-seccess';
+import sendSuccess, { sendSuccessNoData } from '../utility/send-seccess';
 import { userServises } from './User.servises';
 import httpStatus from 'http-status';
 
@@ -16,22 +16,20 @@ const blockUserAdmin = catchAsynch(async (req, res) => {
   const { userId } = req.params;
   const result = await userServises.blockUserAdminIntoDB(userId);
   console.log(result);
-  sendSuccess(res, {
+  sendSuccessNoData(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'User blocked successfully',
-    data: '',
   });
 });
 const blogDeleteAdmin = catchAsynch(async (req, res) => {
   const { id } = req.params;
   const result = await userServises.blogDeteleAdminIntoDB(id);
   console.log(result);
-  sendSuccess(res, {
+  sendSuccessNoData(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Blog deleted successfully',
-    data: '',
   });
 });
 

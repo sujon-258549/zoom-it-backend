@@ -1,4 +1,3 @@
-import { Types } from 'mongoose';
 import { User } from '../User/User.mole';
 import { TBlog } from './Blog.interfaces';
 import { Blog } from './Blog.Model';
@@ -27,17 +26,46 @@ const updateBlogintoDB = async (
   paylod: Partial<TBlog>,
 ) => {
   const existid = await User.isUserExistsById(email);
-  const existblogInmyid = await Blog.findOne({ existid });
-  console.log(existblogInmyid);
+
+  // Ensure the authorId is an ObjectId
+  const toStringBlogDataintoUser = existid?.toString();
+  const findAuthorId = await Blog.findOne({ _id: id });
+
+  const findAuthor = findAuthorId?.author.toString();
+  console.log('find author', findAuthor);
+  console.log('find User', toStringBlogDataintoUser);
+  console.log('author', id);
+  if (findAuthor !== toStringBlogDataintoUser) {
+    throw new Error(
+      `Mismatch: Blog author ID (${findAuthor}) does not match user ID (${toStringBlogDataintoUser}).`,
+    );
+  }
   const result = await Blog.findByIdAndUpdate(id, paylod);
   return result;
 };
+// delete user
 const deleteBlogintoDB = async (authorId: string, email: string) => {
   // Fetch the user's ObjectId by email
   const user = await User.isUserExistsById(email);
   if (!user) {
     throw new Error('User not found.');
   }
+  const existid = await User.isUserExistsById(email);
+
+  // Ensure the authorId is an ObjectId
+  const toStringBlogDataintoUser = existid?.toString();
+  const findAuthorId = await Blog.findOne({ _id: authorId });
+
+  const findAuthor = findAuthorId?.author.toString();
+  console.log('find author', findAuthor);
+  console.log('find User', toStringBlogDataintoUser);
+  console.log('author', authorId);
+  if (findAuthor !== toStringBlogDataintoUser) {
+    throw new Error(
+      `Mismatch: Blog author ID (${findAuthor}) does not match user ID (${toStringBlogDataintoUser}).`,
+    );
+  }
+
   // Find the blog by authorId
   const blog = await Blog.findById(authorId);
   console.log(blog, authorId);

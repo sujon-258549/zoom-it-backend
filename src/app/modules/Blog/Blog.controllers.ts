@@ -1,5 +1,5 @@
 import { catchAsynch } from '../utility/catchAsync';
-import sendSuccess from '../utility/send-seccess';
+import sendSuccess, { sendSuccessNoData } from '../utility/send-seccess';
 import { blogServises } from './Blog.Servises';
 import httpStatus from 'http-status';
 
@@ -30,11 +30,10 @@ const deleteBlog = catchAsynch(async (req, res) => {
   const email = req?.user?.email;
   const result = await blogServises.deleteBlogintoDB(id, email);
   console.log(result);
-  sendSuccess(res, {
+  sendSuccessNoData(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Blog Deleted successfully',
-    data: {},
   });
 });
 const getallbloge = catchAsynch(async (req, res) => {
