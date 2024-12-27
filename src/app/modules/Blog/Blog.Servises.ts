@@ -34,9 +34,9 @@ const updateBlogintoDB = async (
   const findAuthorId = await Blog.findOne({ _id: id });
 
   const findAuthor = findAuthorId?.author.toString();
-  console.log('find author', findAuthor);
-  console.log('find User', toStringBlogDataintoUser);
-  console.log('author', id);
+  //   console.log('find author', findAuthor);
+  //   console.log('find User', toStringBlogDataintoUser);
+  //   console.log('author', id);
   if (findAuthor !== toStringBlogDataintoUser) {
     throw new Error(
       `Mismatch: Blog author ID (${findAuthor}) does not match user ID (${toStringBlogDataintoUser}).`,

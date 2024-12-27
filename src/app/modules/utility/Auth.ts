@@ -10,7 +10,7 @@ import httpStatus from 'http-status';
 const auth = (...requiredRoles: TuserRole[]) => {
   return catchAsynch(
     async (req: Request, res: Response, next: NextFunction) => {
-      const token = req.headers.authorization;
+      const token = req.headers.authorization?.split(' ')[2];
       if (!token) {
         throw new AppError(httpStatus.UNAUTHORIZED, 'User is not authorized');
       }
