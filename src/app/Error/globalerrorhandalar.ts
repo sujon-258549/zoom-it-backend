@@ -4,8 +4,13 @@ import { TerrorSourse } from './interfaces/interfaces';
 import { ZodError } from 'zod';
 import handelZodErrror from './handelZodEror';
 import handelMongoosValidactionError from './handelMongoosValidactionError';
+import handelMongoosValidactionCastError from './handelMongoosValidactionCastError';
+import handelMongoosValidactionUnicIdError from './handelMongoosValidactionUnicIdError';
+import AppError from './Apperror';
+import config from '../config';
 
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
+  console.log(error);
   let statusCod = 500;
   let message = error.message || 'Something went wrong.';
 
@@ -25,7 +30,41 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     statusCod = mongoseValidactionErrorDetail.statusCod;
     message = mongoseValidactionErrorDetail.message;
     errorSourse = mongoseValidactionErrorDetail.errorSourse;
+  } else if (error.name === 'CastError') {
+    const simplefideError = handelMongoosValidactionCastError(error);
+    statusCod = simplefideError.statusCod;
+    message = simplefideError.message;
+    errorSourse = simplefideError.errorSourse;
+  } else if (error.cod === 11000) {
+    const simplefideError = handelMongoosValidactionUnicIdError(error);
+    statusCod = simplefideError.statusCod;
+    message = simplefideError.message;
+    errorSourse = simplefideError.errorSourse;
+  } else if (error instanceof AppError) {
+    statusCod = error.StatusCod;
+    message = error.message;
+    errorSourse = [
+      {
+        path: '',
+        message: error?.message,
+      },
+    ];
+  } else if (error instanceof Error) {
+    message = error.message;
+    errorSourse = [
+      {
+        path: '',
+        message: error?.message,
+      },
+    ];
   }
+  res.status(statusCod).json({
+    success: false,
+    message,
+    errorSourse,
+    error,
+    stack: config.NODE_ENV === 'development' ? error?.stack : null,
+  });
 };
 
 export default globalErrorHandler;

@@ -46,7 +46,8 @@ const updateBlogintoDB = async (
   return result;
 };
 // delete user
-const deleteBlogintoDB = async (authorId: string, email: string) => {
+const deleteBlogintoDB = async (blogsId: string, email: string) => {
+  console.log(blogsId);
   // Fetch the user's ObjectId by email
   const user = await User.isUserExistsById(email);
   if (!user) {
@@ -56,12 +57,12 @@ const deleteBlogintoDB = async (authorId: string, email: string) => {
 
   // Ensure the authorId is an ObjectId
   const toStringBlogDataintoUser = existid?.toString();
-  const findAuthorId = await Blog.findOne({ _id: authorId });
+  const findAuthorId = await Blog.findOne({ _id: blogsId });
 
   const findAuthor = findAuthorId?.author.toString();
   console.log('find author', findAuthor);
   console.log('find User', toStringBlogDataintoUser);
-  console.log('author', authorId);
+  console.log('author', blogsId);
   if (findAuthor !== toStringBlogDataintoUser) {
     throw new Error(
       `Mismatch: Blog author ID (${findAuthor}) does not match user ID (${toStringBlogDataintoUser}).`,
@@ -69,13 +70,13 @@ const deleteBlogintoDB = async (authorId: string, email: string) => {
   }
 
   // Find the blog by authorId
-  const blog = await Blog.findById(authorId);
-  console.log(blog, authorId);
+  const blog = await Blog.findById(blogsId);
+  console.log(blog, blogsId);
   if (!blog) {
     throw new Error('Blog not found.');
   }
 
-  console.log(blog, authorId, user);
+  console.log(blog, blogsId, user);
 
   // Check if the user is the author of the blog
   //   if (userId !== blog.author.toString()) {
@@ -83,7 +84,8 @@ const deleteBlogintoDB = async (authorId: string, email: string) => {
   //   }
 
   // Delete the blog
-  const result = await Blog.findOneAndDelete();
+  const result = await Blog.findByIdAndDelete(blogsId);
+  console.log(result);
   if (!result) {
     throw new Error('Blog not found or already deleted.');
   }

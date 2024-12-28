@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { catchAsynch } from '../utility/catchAsync';
 import sendSuccess from '../utility/send-seccess';
 import httpStatus from 'http-status';
 import { authServices } from './Auth.Servises';
+import catchAsynch from '../utility/catchAsync';
 
 const createLogin = catchAsynch(async (req: Request, res: Response) => {
   const result = await authServices.loginUser(req.body);

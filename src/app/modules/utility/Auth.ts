@@ -1,16 +1,17 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express';
 import { TuserRole } from '../User/User.interface';
-import { catchAsynch } from './catchAsync';
 import config from '../../config';
 import AppError from '../../Error/Apperror';
 import { User } from '../User/User.mole';
 import httpStatus from 'http-status';
+import catchAsynch from './catchAsync';
 
 const auth = (...requiredRoles: TuserRole[]) => {
   return catchAsynch(
     async (req: Request, res: Response, next: NextFunction) => {
-      const token = req.headers.authorization?.split(' ')[2];
+      const token = req.headers.authorization?.split(' ')[1]; //?.split(' ')[2];
+      console.log(token);
       if (!token) {
         throw new AppError(httpStatus.UNAUTHORIZED, 'User is not authorized');
       }
@@ -23,6 +24,7 @@ const auth = (...requiredRoles: TuserRole[]) => {
         throw new AppError(httpStatus.UNAUTHORIZED, 'User is not authorized');
       }
       const { email, role } = decoded;
+
       const user = await User.findOne({ email }).select('+password');
       if (!user) {
         throw new AppError(httpStatus.UNAUTHORIZED, 'User is not authorized');

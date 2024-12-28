@@ -1,4 +1,4 @@
-import { catchAsynch } from '../utility/catchAsync';
+import catchAsynch from '../utility/catchAsync';
 import sendSuccess, { sendSuccessNoData } from '../utility/send-seccess';
 import { userServises } from './User.servises';
 import httpStatus from 'http-status';
@@ -12,6 +12,7 @@ const createUser = catchAsynch(async (req, res) => {
     data: result,
   });
 });
+
 const blockUserAdmin = catchAsynch(async (req, res) => {
   const { userId } = req.params;
   const result = await userServises.blockUserAdminIntoDB(userId);

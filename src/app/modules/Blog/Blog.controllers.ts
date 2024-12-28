@@ -1,15 +1,15 @@
-import { catchAsynch } from '../utility/catchAsync';
 import sendSuccess, { sendSuccessNoData } from '../utility/send-seccess';
 import { blogServises } from './Blog.Servises';
 import httpStatus from 'http-status';
+import catchAsynch from '../utility/catchAsync';
 
 const createBlog = catchAsynch(async (req, res) => {
   const id = req?.user?.email;
   const result = await blogServises.createBlogDB(id, req.body);
   sendSuccess(res, {
-    statusCode: httpStatus.CREATED,
     success: true,
     message: 'Blog created successfully',
+    statusCode: httpStatus.CREATED,
     data: result,
   });
 });
