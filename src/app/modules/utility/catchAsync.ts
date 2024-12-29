@@ -1,9 +1,22 @@
+// import { NextFunction, Request, RequestHandler, Response } from 'express';
+
+// const catchAsynch = (fn: RequestHandler) => {
+//   return (req: Request, res: Response, next: NextFunction) => {
+//     Promise.resolve(fn(req, res, next)).catch((error) => next(error));
+//   };
+// };
+
+// export default catchAsynch;
+
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 
-const catchAsynch = (fn: RequestHandler) => {
+const catchAsync = (fn: RequestHandler) => {
   return (req: Request, res: Response, next: NextFunction) => {
-    Promise.resolve(fn(req, res, next)).catch((error) => next(error));
+    Promise.resolve(fn(req, res, next)).catch((error) => {
+      console.error(error); // Log the error for debugging
+      next(error); // Pass the error to the next middleware (error handler)
+    });
   };
 };
 
-export default catchAsynch;
+export default catchAsync;

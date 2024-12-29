@@ -1,5 +1,5 @@
 import { ZodError, ZodIssue } from 'zod';
-import { TerrorSourse, TGanaricErrorHandeler } from './interfaces/interfaces';
+import { TerrorSourse, TGanaricErrorHandeler } from '../interfaces/interfaces';
 
 const handelZodErrror = (zodError: ZodError): TGanaricErrorHandeler => {
   const formetedError: TerrorSourse = zodError.issues.map(

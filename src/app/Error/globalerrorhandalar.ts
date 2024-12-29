@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ErrorRequestHandler } from 'express';
-import { TerrorSourse } from './interfaces/interfaces';
 import { ZodError } from 'zod';
 import handelZodErrror from './handelZodEror';
 import handelMongoosValidactionError from './handelMongoosValidactionError';
@@ -8,6 +7,7 @@ import handelMongoosValidactionCastError from './handelMongoosValidactionCastErr
 import handelMongoosValidactionUnicIdError from './handelMongoosValidactionUnicIdError';
 import AppError from './Apperror';
 import config from '../config';
+import { TerrorSourse } from '../interfaces/interfaces';
 
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   console.log(error);

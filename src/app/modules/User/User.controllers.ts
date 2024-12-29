@@ -1,9 +1,9 @@
-import catchAsynch from '../utility/catchAsync';
+import catchAsync from '../utility/catchAsync';
 import sendSuccess, { sendSuccessNoData } from '../utility/send-seccess';
 import { userServises } from './User.servises';
 import httpStatus from 'http-status';
 
-const createUser = catchAsynch(async (req, res) => {
+const createUser = catchAsync(async (req, res) => {
   const result = await userServises.createUser(req.body);
   sendSuccess(res, {
     statusCode: httpStatus.CREATED,
@@ -13,7 +13,7 @@ const createUser = catchAsynch(async (req, res) => {
   });
 });
 
-const blockUserAdmin = catchAsynch(async (req, res) => {
+const blockUserAdmin = catchAsync(async (req, res) => {
   const { userId } = req.params;
   const result = await userServises.blockUserAdminIntoDB(userId);
   console.log(result);
@@ -23,7 +23,7 @@ const blockUserAdmin = catchAsynch(async (req, res) => {
     message: 'User blocked successfully',
   });
 });
-const blogDeleteAdmin = catchAsynch(async (req, res) => {
+const blogDeleteAdmin = catchAsync(async (req, res) => {
   const { id } = req.params;
   const result = await userServises.blogDeteleAdminIntoDB(id);
   console.log(result);

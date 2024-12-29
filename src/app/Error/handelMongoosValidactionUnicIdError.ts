@@ -1,4 +1,4 @@
-import { TerrorSourse, TGanaricErrorHandeler } from './interfaces/interfaces';
+import { TerrorSourse, TGanaricErrorHandeler } from '../interfaces/interfaces';
 
 const handelMongoosValidactionUnicIdError = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

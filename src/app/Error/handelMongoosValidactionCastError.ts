@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { TerrorSourse, TGanaricErrorHandeler } from './interfaces/interfaces';
+import { TerrorSourse, TGanaricErrorHandeler } from '../interfaces/interfaces';
 
 const handelMongoosValidactionCastError = (
   err: mongoose.Error.CastError,
