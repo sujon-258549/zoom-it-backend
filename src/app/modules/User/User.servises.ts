@@ -3,6 +3,7 @@ import { TUser } from './User.interface';
 import { User } from './User.mole';
 
 const createUser = async (paylod: TUser) => {
+  console.log(paylod)
   const result = await User.create(paylod);
   return result;
 };

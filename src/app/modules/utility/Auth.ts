@@ -9,7 +9,8 @@ import catchAsync from './catchAsync';
 
 const auth = (...requiredRoles: TuserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const token = req.headers.authorization?.split(' ')[1]; //?.split(' ')[2];
+    const token = req.headers.authorization //?.split(' ')[2];
+    console.log(token)
     if (!token) {
       throw new AppError(httpStatus.UNAUTHORIZED, 'User is not authorized');
     }

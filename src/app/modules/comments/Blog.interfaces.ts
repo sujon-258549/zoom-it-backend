@@ -1,9 +1,7 @@
 import { Types } from 'mongoose';
 
 export interface TBlog {
-  title: string;
-  content: string;
+  comments: string;
+  blogId: Types.ObjectId;
   author: Types.ObjectId;
-  image?: string;
-  isPublished: boolean;
 }

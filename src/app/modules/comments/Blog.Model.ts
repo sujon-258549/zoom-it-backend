@@ -3,25 +3,18 @@ import { TBlog } from './Blog.interfaces';
 
 const BlogSchema = new Schema<TBlog>(
   {
-    title: {
-      type: String,
-      trim: true,
-    },
-    content: {
+    comments: {
       type: String,
     },
-    image: {
-      type: String,
-      default:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvMcoAANRyd4t81yPRy9kXzS5hG03aHyIVBA&s"
+    blogId: {
+      type: Schema.Types.ObjectId,
+      ref: 'blogs',
     },
     author: {
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
-    isPublished: {
-      type: Boolean,
-      default: true,
-    },
+
   },
   {
     timestamps: true, // Automatically manages createdAt and updatedAt

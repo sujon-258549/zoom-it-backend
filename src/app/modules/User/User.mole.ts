@@ -22,6 +22,10 @@ const UserSchema = new Schema<TUser, UserModel>(
       required: true,
       //   select: 0,
     },
+    phoneNumber: {
+      type: String,
+      required: true,
+    },
     role: {
       type: String,
       enum: ['admin', 'user'],
