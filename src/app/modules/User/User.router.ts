@@ -1,20 +1,25 @@
 import { Router } from 'express';
 import { userController } from './User.controllers';
-import zodValidaction from '../utility/zod.Validaction';
-import { userValidaction } from './User.Zod.Validaction';
+import { userValidation } from './User.Zod.Validation';
 import auth from '../utility/Auth';
+import zodValidation from '../utility/zodValidation';
 
 const router = Router();
 
 router.post(
   '/auth/register',
-  zodValidaction(userValidaction.createZodValidaction),
+  zodValidation(userValidation.createZodValidation),
   userController.createUser,
 );
 router.patch(
   '/admin/users/:userId/block',
   auth('admin'),
   userController.blockUserAdmin,
+);
+router.get(
+  '/me',
+  auth('admin', "user"),
+  userController.getMe,
 );
 router.delete(
   '/admin/blogs/:id',

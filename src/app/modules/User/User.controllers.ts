@@ -1,10 +1,10 @@
 import catchAsync from '../utility/catchAsync';
 import sendSuccess, { sendSuccessNoData } from '../utility/send-seccess';
-import { userServises } from './User.servises';
 import httpStatus from 'http-status';
+import { userServices } from './User.services';
 
 const createUser = catchAsync(async (req, res) => {
-  const result = await userServises.createUser(req.body);
+  const result = await userServices.createUser(req.body);
   sendSuccess(res, {
     statusCode: httpStatus.CREATED,
     success: true,
@@ -15,7 +15,7 @@ const createUser = catchAsync(async (req, res) => {
 
 const blockUserAdmin = catchAsync(async (req, res) => {
   const { userId } = req.params;
-  const result = await userServises.blockUserAdminIntoDB(userId);
+  const result = await userServices.blockUserAdminIntoDB(userId);
   console.log(result);
   sendSuccessNoData(res, {
     statusCode: httpStatus.OK,
@@ -25,12 +25,22 @@ const blockUserAdmin = catchAsync(async (req, res) => {
 });
 const blogDeleteAdmin = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const result = await userServises.blogDeteleAdminIntoDB(id);
-  console.log(result);
+  const result = await userServices.blogDeleteAdminIntoDB(id);
   sendSuccessNoData(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Blog deleted successfully',
+  });
+});
+const getMe = catchAsync(async (req, res) => {
+  const { email } = req.user;
+  console.log(req.user)
+  const result = await userServices.getMe(email);
+  sendSuccess(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'My Date Retrieved successfully',
+    data:result
   });
 });
 
@@ -38,4 +48,5 @@ export const userController = {
   createUser,
   blockUserAdmin,
   blogDeleteAdmin,
+  getMe
 };

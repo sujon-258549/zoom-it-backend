@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import zodValidaction from '../utility/zod.Validaction';
-import { authValidaction } from './Auth.Zod.validaction';
 import { authController } from './Auth.Controllers';
+import zodValidation from '../utility/zodValidation';
+import { authValidation } from './Auth.Zod.validation';
 
 const router = Router();
 
 router.post(
   '/login',
-  zodValidaction(authValidaction.createLoginUserValidaction),
+  zodValidation(authValidation.createLoginUserValidation),
   authController.createLogin,
 );
 

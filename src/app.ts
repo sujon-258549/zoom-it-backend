@@ -4,9 +4,9 @@ import express, { Application, Request, Response } from 'express';
 
 const app: Application = express();
 import cors from 'cors';
-import router from './app/Router/intdex';
 import globalErrorHandler from './app/Error/globalerrorhandalar';
 import notFound from './app/Error/notfound';
+import router from './app/Router';
 
 
 app.use(express.json());

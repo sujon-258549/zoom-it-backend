@@ -1,10 +1,11 @@
-import { Blog } from '../Blog/Blog.Model';
+
+import { Product } from '../product/product.Model';
 import { TUser } from './User.interface';
 import { User } from './User.mole';
 
-const createUser = async (paylod: TUser) => {
-  console.log(paylod)
-  const result = await User.create(paylod);
+const createUser = async (payload: TUser) => {
+  console.log(payload)
+  const result = await User.create(payload);
   return result;
 };
 
@@ -25,15 +26,21 @@ const blockUserAdminIntoDB = async (id: string) => {
   return result;
 };
 
+const getMe = async (email: string) => {
+  const result = await User.findOne({ email: email })
+  return result
+}
+
 // admin delete blog
-const blogDeteleAdminIntoDB = async (id: string) => {
+const blogDeleteAdminIntoDB = async (id: string) => {
   // Update the user's isBlocked field to true
-  const result = await Blog.findByIdAndDelete(id);
+  const result = await Product.findByIdAndDelete(id);
   return result;
 };
 
-export const userServises = {
+export const userServices = {
   createUser,
   blockUserAdminIntoDB,
-  blogDeteleAdminIntoDB,
+  blogDeleteAdminIntoDB,
+  getMe
 };

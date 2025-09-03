@@ -1,6 +1,6 @@
 import { FilterQuery, Query } from 'mongoose';
 
-class QueryBilder<T> {
+class QueryBalder<T> {
   public modelQuery: Query<T[], T>;
   public query: Record<string, unknown>;
 
@@ -50,8 +50,8 @@ class QueryBilder<T> {
     // Get the 'sortOrder' from the query or default to ascending order
     const sortOrder =
       this.query.sortOrder &&
-      typeof this.query.sortOrder === 'string' &&
-      this.query.sortOrder.toLowerCase() === 'desc'
+        typeof this.query.sortOrder === 'string' &&
+        this.query.sortOrder.toLowerCase() === 'desc'
         ? -1
         : 1; // Default to ascending order if sortOrder is not 'desc'
 
@@ -63,7 +63,7 @@ class QueryBilder<T> {
     return this; // Enable method chaining
   }
 
-  paginaction() {
+  pagination() {
     const page = Number(this.query.page) || 1;
     const limit = Number(this.query.limit) || 50;
     const skip = (page - 1) * limit;
@@ -77,6 +77,20 @@ class QueryBilder<T> {
     this.modelQuery = this.modelQuery.select(fields);
     return this;
   }
+  async countTotal() {
+    const totalQueries = this.modelQuery.getFilter();
+    const total = await this.modelQuery.model.countDocuments(totalQueries);
+    const page = Number(this.query.page) || 1;
+    const limit = Number(this.query.limit) || 10;
+    const totalPage = Math.ceil(total / limit);
+
+    return {
+      page,
+      limit,
+      total,
+      totalPage,
+    };
+  }
 }
 
-export default QueryBilder;
+export default QueryBalder;

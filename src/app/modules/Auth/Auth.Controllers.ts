@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import sendSuccess from '../utility/send-seccess';
 import httpStatus from 'http-status';
-import { authServices } from './Auth.Servises';
+import { authServices } from './Auth.Services';
 import catchAsync from '../utility/catchAsync';
 
 const createLogin = catchAsync(async (req: Request, res: Response) => {

@@ -9,12 +9,12 @@ import catchAsync from './catchAsync';
 
 const auth = (...requiredRoles: TuserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const token = req.headers.authorization //?.split(' ')[2];
-    console.log(token)
+    const token = req.headers.authorization;
+   
     if (!token) {
       throw new AppError(httpStatus.UNAUTHORIZED, 'User is not authorized');
     }
-    //   validaction token
+    //   validation token
     const decoded = jwt.verify(
       token,
       config.JWT_ACCESS_TOCEN as string,
@@ -22,12 +22,14 @@ const auth = (...requiredRoles: TuserRole[]) => {
     if (!decoded) {
       throw new AppError(httpStatus.UNAUTHORIZED, 'User is not authorized');
     }
+     console.log(decoded)
     const { email, role } = decoded;
 
     const user = await User.findOne({ email }).select('+password');
     if (!user) {
       throw new AppError(httpStatus.UNAUTHORIZED, 'User is not authorized');
     }
+    
     //   check is blocked user
     if (user.isBlocked) {
       throw new AppError(httpStatus.UNAUTHORIZED, 'Your User is Blocked!');
@@ -41,8 +43,6 @@ const auth = (...requiredRoles: TuserRole[]) => {
       );
     }
     req.user = decoded;
-    //   console.log(user);
-    //   console.log(decoded);
 
     next();
   });
