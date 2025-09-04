@@ -21,6 +21,16 @@ router.get(
   auth('admin', "user"),
   userController.getMe,
 );
+router.get(
+  '/',
+  auth('admin', ),
+  userController.allUser,
+);
+router.get(
+  '/admin',
+  auth('admin'),
+  userController.adminDashboard,
+);
 router.delete(
   '/admin/blogs/:id',
   auth('admin'),

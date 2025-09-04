@@ -43,10 +43,30 @@ const getMe = catchAsync(async (req, res) => {
     data:result
   });
 });
+const allUser = catchAsync(async (req, res) => {
+  const result = await userServices.allUser();
+  sendSuccess(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'All User Retrieved successfully',
+    data:result
+  });
+});
+const adminDashboard = catchAsync(async (req, res) => {
+  const result = await userServices.adminDashBoard();
+  sendSuccess(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Admin Dashboard Data Retrieved successfully',
+    data:result
+  });
+});
 
 export const userController = {
   createUser,
   blockUserAdmin,
   blogDeleteAdmin,
-  getMe
+  getMe,
+  adminDashboard,
+  allUser
 };
