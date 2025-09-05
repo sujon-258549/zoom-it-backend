@@ -10,7 +10,7 @@ import router from './app/Router';
 
 
 app.use(express.json());
-app.use(cors({ origin: ['http://localhost:5173']}));
+app.use(cors({ origin: ['http://localhost:5173', 'https://zoom-it-mern-stack-frontend.vercel.app']}));
 
 
 app.use('/api', router);
