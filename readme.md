@@ -60,6 +60,11 @@ The backend provides a **RESTful API** for ZoomIt E-commerce with the following 
 - **JWT & bcrypt**  
 
 ---
-
-## 🏗 Project Structure
+.env
+NODE_ENV=development
+DATABASE_URL=mongodb+srv://rootx:rY8yaJnFp0cgqOYU@cluster0.yx0jx.mongodb.net/rootx?retryWrites=true&w=majority&appName=Cluster0
+PORT=4000
+JWT_ACCESS_TOCEN=fksdlaaaaaaaaaaaaaadlsfkjjjjjj
+JWT_EXPIRE_IN_ACCESSTOKEN=1h
+BCRYPC_HAS=5
 
